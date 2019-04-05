@@ -1,6 +1,5 @@
-"""                      Week3 - Programming Assignment 5
+"""                   
 https://github.com/Mohammad-Rahmdel/deep-learning-specialization-coursera/blob/master/02-Improving-Deep-Neural-Networks/week3/Programming-Assignments/Tensorflow_Tutorial.ipynb
-https://github.com/Kulbear/deep-learning-coursera/blob/master/Improving%20Deep%20Neural%20Networks%20Hyperparameter%20tuning%2C%20Regularization%20and%20Optimization/Tensorflow%20Tutorial.ipynb
 """
 
 import math
@@ -16,84 +15,16 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # ignoring warnings
 
 
 
-# y_hat = tf.constant(36, name='y_hat')            # Define y_hat constant. Set to 36.
-# y = tf.constant(39, name='y')                    # Define y. Set to 39
-
-# loss = tf.Variable((y - y_hat)**2, name='loss')  # Create a variable for the loss
-
-# init = tf.global_variables_initializer()         # When init is run later (session.run(init)),
-#                                                  # the loss variable will be initialized and ready to be computed
-# with tf.Session() as session:                    # Create a session and print the output
-#     session.run(init)                            # Initializes the variables
-#     print("loss = " + str(session.run(loss)))    # Prints the loss
 
 
-
-
-
-# a = tf.constant(2)
-# b = tf.constant(10)
-# c = tf.multiply(a,b)
-# with tf.Session() as session:
-#     print("C = " + str(session.run(c)))
-    
-    
-#     x = tf.placeholder(tf.int64, name = 'x')  #A placeholder is simply a variable that you will assign data to only later, 
-#     #when running the session. We say that you feed data to these placeholders when running the session.
-#     print(session.run(2 * x, feed_dict = {x: 3}))
-
-
-
-
-
-# Exercise 1.1 - Linear function
-def linear_function():
-    """
-    Implements a linear function: 
-            Initializes W to be a random tensor of shape (4,3)
-            Initializes X to be a random tensor of shape (3,1)
-            Initializes b to be a random tensor of shape (4,1)
-    Returns: 
-    result -- runs the session for Y = WX + b 
-    """
-    
-    np.random.seed(1)
-    X = tf.constant(np.random.randn(3,1), name = "X")
-    W = tf.constant(np.random.randn(4,3), name = "W")
-    b = tf.constant(np.random.randn(4,1), name = "b")
-    result = tf.add(tf.matmul(W, X), b)
-
-    with tf.Session() as session:
-        result = session.run(result)
-    
-    return result
-
-# print(linear_function())
-
-
-
-# Exercise 1.2 - Computing the sigmoid
 def sigmoid(z):
-    """
-    Arguments:
-    z -- input value, scalar or vector
-    
-    Returns: 
-    results -- the sigmoid of z
-    """
     x = tf.placeholder(tf.float32, name = 'x')
     results = tf.sigmoid(x)
     with tf.Session() as session:
-        results = session.run(results, feed_dict={x: z})
-    
+        results = session.run(results, feed_dict={x: z})    
     return results
 
-# print ("sigmoid(0) = " + str(sigmoid(0)))
-# print ("sigmoid(12) = " + str(sigmoid(12)))
 
-
-
-# Exercise 1.3 - Computing the Cost
 def cost(logits, labels):
     """
     Computes the cost using the sigmoid cross entropy
@@ -119,12 +50,7 @@ def cost(logits, labels):
     
     return cost
 
-# logits = sigmoid(np.array([0.2,0.4,0.7,0.9]))
-# cost = cost(logits, np.array([0,0,1,1]))
-# print ("cost = " + str(cost))
 
-
-# Exercise 1.4 - Using One Hot encodings1.5 - Initialize with zeros and ones
 def one_hot_matrix(labels, C):
     """
     Creates a matrix where the i-th row corresponds to the ith class number and the jth column
@@ -145,15 +71,8 @@ def one_hot_matrix(labels, C):
 
     return one_hot_matrix
 
-# labels = np.array([1,2,3,0,2,1])
-# one_hot = one_hot_matrix(labels, C = 4)
-# print ("one_hot = " + str(one_hot))
 
 
-
-
-
-# Exercise 1.5 - Initialize with zeros and ones
 def ones(shape):
     """
     Creates an array of ones of dimension shape
@@ -171,12 +90,8 @@ def ones(shape):
 
     return ones
 
-# print ("ones = " + str(ones([3])))
 
-
-
-# 2 - Building your first neural network in tensorflow
-# 2.0 - Problem statement: SIGNS Dataset 
+# Problem statement: SIGNS Dataset 
 
 X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes = load_dataset()
 
@@ -219,13 +134,9 @@ def create_placeholders(n_x, n_y):
     Y = tf.placeholder(shape=[n_y, None] ,dtype=tf.float32, name='Y')
     return X, Y
 
-# X, Y = create_placeholders(12288, 6)
-# print ("X = " + str(X))
-# print ("Y = " + str(Y))
 
 
 
-# Exercise 2.2 - Initializing the parameters
 def initialize_parameters():
     """
     Initializes parameters to build a neural network with tensorflow. The shapes are:
@@ -235,7 +146,7 @@ def initialize_parameters():
     parameters 
     """
 
-    tf.set_random_seed(1)                   # so that your "random" numbers match ours
+    tf.set_random_seed(1)                  
 
     b1 = tf.get_variable("b1", [25,1], initializer = tf.zeros_initializer())
     b2 = tf.get_variable("b2", [12,1], initializer = tf.zeros_initializer())
@@ -255,16 +166,6 @@ def initialize_parameters():
     return parameters
 
 
-# tf.reset_default_graph()
-# with tf.Session() as sess:
-#     parameters = initialize_parameters()
-#     print("W1 = " + str(parameters["W1"]))
-#     print("b1 = " + str(parameters["b1"]))
-
-
-
-
-# Exercise 2.3 - Forward propagation in tensorflow
 def forward_propagation(X, parameters):
     """
     Implements the forward propagation for the model: LINEAR -> RELU -> LINEAR -> RELU -> LINEAR -> SOFTMAX
@@ -292,20 +193,7 @@ def forward_propagation(X, parameters):
     return Z3
 
 
-# tf.reset_default_graph()
-
-# with tf.Session() as sess:
-#     X, Y = create_placeholders(12288, 6)
-#     # Tensor("X:0", shape=(12288, ?), dtype=float32)
-#     # Tensor("Y:0", shape=(6, ?), dtype=float32)
-#     parameters = initialize_parameters()
-#     Z3 = forward_propagation(X, parameters)
-#     print("Z3 = " + str(Z3))
     
-   
-
-
-# Exercise 2.4 Compute cost
 def compute_cost(Z3, Y):
     """
     Arguments:
@@ -323,18 +211,7 @@ def compute_cost(Z3, Y):
     return cost
 
 
-# tf.reset_default_graph()
-# with tf.Session() as sess:
-#     X, Y = create_placeholders(12288, 6)
-#     parameters = initialize_parameters()
-#     Z3 = forward_propagation(X, parameters)
-#     cost = compute_cost(Z3, Y)
-#     print("cost = " + str(cost))
 
-
-
-
-# Exercise 2.6 - Building the model
 def model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001,
           num_epochs = 1500, minibatch_size = 32, print_cost = True):
     """
@@ -373,7 +250,7 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001,
     with tf.Session() as session:
         session.run(init)
         for i in range(num_epochs):
-            seed = seed + 1
+            # seed = seed + 1
             epoch_cost = 0.
             minibatches = random_mini_batches(X_train, Y_train, minibatch_size, seed)
             n_minibatches = np.floor(m / minibatch_size)
@@ -409,11 +286,58 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001,
     return parameters
     
 
-# parameters = model(X_train, Y_train, X_test, Y_test)
-""" results : 
+parameters = model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001, num_epochs = 2500, minibatch_size = 32)
+
+""" Results before Regularization 
+
+learning_rate = 0.0001
+num_epochs = 1500
+minibatch_size = 32
+
+with seed = seed + 1 :
     Train Accuracy: 0.9990741
-    Test Accuracy: 0.725
+    Test Accuracy: 0.71666664
+
+without seed = seed + 1 :
+    Train Accuracy: 0.9962963
+    Test Accuracy: 0.8333333
+
+
+learning_rate = 0.0001
+num_epochs = 1000
+minibatch_size = 32
+    Train Accuracy: 0.9824074
+    Test Accuracy: 0.81666666
+
+learning_rate = 0.00005
+num_epochs = 1500
+minibatch_size = 32
+    Train Accuracy: 0.99814814
+    Test Accuracy: 0.81666666
+
+
+learning_rate = 0.0001
+num_epochs = 1500
+minibatch_size = 64
+    Train Accuracy: 0.9925926
+    Test Accuracy: 0.81666666
+
+
+learning_rate = 0.0001
+num_epochs = 2500
+minibatch_size = 32
+    Train Accuracy: 0.9814815
+    Test Accuracy: 0.8333333
+
+learning_rate = 0.001, 0.0003
+OVERSHOOTING occures!!!
+
+
 """
+
+
+
+
 
 
 
