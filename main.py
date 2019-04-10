@@ -286,7 +286,7 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001,
     return parameters
     
 
-parameters = model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001, num_epochs = 2500, minibatch_size = 32)
+parameters = model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001, num_epochs = 500, minibatch_size = 32)
 
 """ Results before Regularization 
 
@@ -328,6 +328,13 @@ num_epochs = 2500
 minibatch_size = 32
     Train Accuracy: 0.9814815
     Test Accuracy: 0.8333333
+
+learning_rate = 0.0001
+num_epochs = 1500
+minibatch_size = 16
+    Train Accuracy: 0.97314817
+    Test Accuracy: 0.725
+    time = 7mins
 
 learning_rate = 0.001, 0.0003
 OVERSHOOTING occures!!!
