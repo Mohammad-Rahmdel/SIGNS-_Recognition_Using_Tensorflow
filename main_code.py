@@ -17,78 +17,78 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # ignoring warnings
 
 
 
-def sigmoid(z):
-    x = tf.placeholder(tf.float32, name = 'x')
-    results = tf.sigmoid(x)
-    with tf.Session() as session:
-        results = session.run(results, feed_dict={x: z})    
-    return results
+# def sigmoid(z):
+#     x = tf.placeholder(tf.float32, name = 'x')
+#     results = tf.sigmoid(x)
+#     with tf.Session() as session:
+#         results = session.run(results, feed_dict={x: z})    
+#     return results
 
 
-def cost(logits, labels):
-    """
-    Computes the cost using the sigmoid cross entropy
+# def cost(logits, labels):
+#     """
+#     Computes the cost using the sigmoid cross entropy
     
-    Arguments:
-    logits -- vector containing z, output of the last linear unit (before the final sigmoid activation)
-    labels -- vector of labels y (1 or 0) 
+#     Arguments:
+#     logits -- vector containing z, output of the last linear unit (before the final sigmoid activation)
+#     labels -- vector of labels y (1 or 0) 
     
-    Note: What we've been calling "z" and "y" in this class are respectively called "logits" and "labels" 
-    in the TensorFlow documentation. So logits will feed into z, and labels into y. 
+#     Note: What we've been calling "z" and "y" in this class are respectively called "logits" and "labels" 
+#     in the TensorFlow documentation. So logits will feed into z, and labels into y. 
     
-    Returns:
-    cost -- runs the session of the cost 
-    """
-    z = tf.placeholder(tf.float32, name='z')
-    y = tf.placeholder(tf.float32, name='y')
+#     Returns:
+#     cost -- runs the session of the cost 
+#     """
+#     z = tf.placeholder(tf.float32, name='z')
+#     y = tf.placeholder(tf.float32, name='y')
 
-    J = tf.nn.sigmoid_cross_entropy_with_logits(logits = z,  labels = y)
+#     J = tf.nn.sigmoid_cross_entropy_with_logits(logits = z,  labels = y)
 
-    with tf.Session() as session:
-        cost = session.run(J, feed_dict={z: logits, y: labels})
+#     with tf.Session() as session:
+#         cost = session.run(J, feed_dict={z: logits, y: labels})
 
     
-    return cost
+#     return cost
 
 
-def one_hot_matrix(labels, C):
-    """
-    Creates a matrix where the i-th row corresponds to the ith class number and the jth column
-                     corresponds to the jth training example. So if example j had a label i. Then entry (i,j) 
-                     will be 1. 
+# def one_hot_matrix(labels, C):
+#     """
+#     Creates a matrix where the i-th row corresponds to the ith class number and the jth column
+#                      corresponds to the jth training example. So if example j had a label i. Then entry (i,j) 
+#                      will be 1. 
                      
-    Arguments:
-    labels -- vector containing the labels 
-    C -- number of classes, the depth of the one hot dimension
+#     Arguments:
+#     labels -- vector containing the labels 
+#     C -- number of classes, the depth of the one hot dimension
     
-    Returns: 
-    one_hot -- one hot matrix
-    """
+#     Returns: 
+#     one_hot -- one hot matrix
+#     """
 
-    one_hot_matrix = tf.one_hot(indices=labels, depth=C, axis=0)
-    with tf.Session() as session:
-        one_hot_matrix = session.run(one_hot_matrix)
+#     one_hot_matrix = tf.one_hot(indices=labels, depth=C, axis=0)
+#     with tf.Session() as session:
+#         one_hot_matrix = session.run(one_hot_matrix)
 
-    return one_hot_matrix
+#     return one_hot_matrix
 
 
 
-def ones(shape):
-    """
-    Creates an array of ones of dimension shape
+# def ones(shape):
+#     """
+#     Creates an array of ones of dimension shape
     
-    Arguments:
-    shape -- shape of the array you want to create
+#     Arguments:
+#     shape -- shape of the array you want to create
         
-    Returns: 
-    ones -- array containing only ones
-    """
+#     Returns: 
+#     ones -- array containing only ones
+#     """
 
-    ones = tf.ones(shape)
-    with tf.Session() as session:
-        ones = session.run(ones)
+#     ones = tf.ones(shape)
+#     with tf.Session() as session:
+#         ones = session.run(ones)
 
-    return ones
+#     return ones
 
 
 # Problem statement: SIGNS Dataset 
@@ -166,7 +166,7 @@ def initialize_parameters():
     return parameters
 
 
-def forward_propagation(X, parameters):
+def forward_propagation(X, parameters, keep_prob=1):
     """
     Implements the forward propagation for the model: LINEAR -> RELU -> LINEAR -> RELU -> LINEAR -> SOFTMAX
     
@@ -186,8 +186,10 @@ def forward_propagation(X, parameters):
 
     Z1 = tf.add(tf.matmul(W1, X) , b1)
     A1 = tf.nn.relu(Z1)
+    A1 = tf.nn.dropout(A1, keep_prob) # adding dropout did not work!
     Z2 = tf.add(tf.matmul(W2, A1) , b2)
     A2 = tf.nn.relu(Z2)
+    A2 = tf.nn.dropout(A2, keep_prob)
     Z3 = tf.add(tf.matmul(W3, A2) , b3)
 
     return Z3
@@ -286,7 +288,7 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001,
     return parameters
     
 
-parameters = model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001, num_epochs = 500, minibatch_size = 32)
+parameters = model(X_train, Y_train, X_test, Y_test, learning_rate = 0.0001, num_epochs = 1500, minibatch_size = 32)
 
 """ Results before Regularization 
 
