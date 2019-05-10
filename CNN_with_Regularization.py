@@ -272,9 +272,58 @@ Train Accuracy: 0.94166666
 Test Accuracy: 0.875
 
 
+learning_rate = 0.003
+num_epochs = 120
+minibatch_size = 32
+keep_prob = 0.9
+Train Accuracy: 0.9351852
+Test Accuracy: 0.89166665
 
 
+learning_rate = 0.005
+num_epochs = 220
+minibatch_size = 32
+keep_prob = 0.75
+Train Accuracy: 0.8037037
+Test Accuracy: 0.8666667
 
+
+learning_rate = 0.003
+num_epochs = 500
+minibatch_size = 32
+keep_prob = 0.9
+Train Accuracy: 0.9546296
+Test Accuracy: 0.94166666
+
+learning_rate = 0.003
+num_epochs = 500
+minibatch_size = 32
+keep_prob = 0.9
+lambda = 0.001
+Train Accuracy: 0.962037
+Test Accuracy: 0.93333334
+
+
+@@@@@@@@@@@@@@@@@@@@@@@ look at this @@@@@@@@@@@@@@@@@@@@@@
+learning_rate = 0.002
+num_epochs = 500
+minibatch_size = 32
+keep_prob = 0.9
+lambda = 0
+Train Accuracy: 0.962037
+Test Accuracy: 0.94166666
+
+@@@@@@@@@@@@@@@@@@ compare with this one @@@@@@@@@@@@@@@@@@@@@
+learning_rate = 0.002
+num_epochs = 500
+minibatch_size = 32
+keep_prob = 1
+lambda = 0
+Train Accuracy: 1.0
+Test Accuracy: 0.8833333
+
+Drop out influence :)
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 Applying dropout to the final fully-connected layers effectively ensemble the entire network, 
 including all previous layers.
